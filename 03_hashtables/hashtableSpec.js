@@ -28,9 +28,9 @@ describe("Hash", function() {
   });
 
   it("should store and retrieve values", function() {
-    hash.set('key1','val1');
-    hash.set('key2','val2');
-    hash.set('this is a very different string',44.4);
+    hash.set('key1', 'val1');
+    hash.set('key2', 'val2');
+    hash.set('this is a very different string', 44.4);
 
     expect(hash.get('key1')).toEqual('val1');
     expect(hash.get('key2')).toEqual('val2');
