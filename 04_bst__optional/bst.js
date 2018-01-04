@@ -1,67 +1,53 @@
-
-
 var BinarySearchTree = function(value) {
 	var instance = Object.create(BinarySearchTree.prototype);
-		
     instance.value = value;
-    // a BST where all values are higher than than the current value.
     instance.right = undefined;
-    // a binary search tree (BST) where all values are lower than than the current value.
     instance.left = undefined;
-		
   return instance
-	// should have methods named 'insert', 'contains', and 'depthFirstForEach"
-	// should make nodes on the correct branches
-	// should sort values when adding
-	// should return true if a contains is passed a value in the tree
 }
+
 BinarySearchTree.prototype.insert = function(value) {
 		var node = BinarySearchTree(value);
 	  function recurse(bst) {
-	    if (bst.value > value && bst.left === undefined) {
+	    if (bst.value > value && !bst.left) {
 	      bst.left = node;
 	    } else if (bst.value > value) {
 	      recurse(bst.left);
-	    } else if (bst.value < value && bst.right === undefined) {
+	    } else if (bst.value < value && !bst.right) {
 	      bst.right = node;
 	    } else if (bst.value < value) {
 	      recurse(bst.right);
 	    }
 	  }
-
 	  recurse(this);
 	};
 
 BinarySearchTree.prototype.contains = function(value) {
 		var doesContain = false;
-  //accepts a value and returns a boolean reflecting whether or not the value is contained in the tree.
-	  function recurse(bst) {
+	  function check(bst) {
 	    if (bst.value === value) {
 	      doesContain = true;;
-	    } else if (bst.left !== undefined && value < bst.value) {
-	      recurse(bst.left);
-	    } else if (bst.right !== undefined && value > bst.value) {
-	      recurse(bst.right)
+	    } else if (bst.left && value < bst.value) {
+	      check(bst.left);
+	    } else if (bst.right && value > bst.value) {
+	      check(bst.right)
 	    }
 	  }
-
-	  recurse(this);
+	  check(this);
 	  return doesContain;
 	};
 	// should run depth first when depthFirstForEach() is run
 BinarySearchTree.prototype.depthFirstForEach = function(callback) {
+	// console.log(this)
 		function recurse(bst) {
 		 callback.call(bst, bst.value)
-
-		 if (bst.left !== undefined) {
+		 if (bst.left) {
 			 recurse(bst.left)
 		 }
-
-		 if (bst.right !== undefined) {
+		 if (bst.right) {
 			 recurse(bst.right);
 		 }
 	 }
-
  recurse(this);
 };
 	// should take values and report size correctly
@@ -83,6 +69,14 @@ BinarySearchTree.prototype.size = function() {
 	 return size
 };
 	// should run breadth first when breadthFirstForEach() is run
-BinarySearchTree.prototype.breadthFirstForEach = function() {
-
+BinarySearchTree.prototype.breadthFirstForEach = function(callback) {
+	var node = this;
+	var queue = [node];
+	var result = []
+	while (node = queue.shift()){
+		result.push(callback.call(node, node.value))
+		node.left && queue.push(node.left)
+		node.right && queue.push(node.right)
+	}
+	return result
 };
