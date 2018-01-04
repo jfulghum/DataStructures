@@ -36,21 +36,20 @@ BinarySearchTree.prototype.contains = function(value) {
 	  check(this);
 	  return doesContain;
 	};
-	// should run depth first when depthFirstForEach() is run
+
 BinarySearchTree.prototype.depthFirstForEach = function(callback) {
-	// console.log(this)
-		function recurse(bst) {
+		function dfs(bst) {
 		 callback.call(bst, bst.value)
 		 if (bst.left) {
-			 recurse(bst.left)
+			 dfs(bst.left)
 		 }
 		 if (bst.right) {
-			 recurse(bst.right);
+			 dfs(bst.right);
 		 }
 	 }
- recurse(this);
+ dfs(this);
 };
-	// should take values and report size correctly
+
 BinarySearchTree.prototype.size = function() {
 	var node = this;
 	 var size = 0
@@ -68,15 +67,13 @@ BinarySearchTree.prototype.size = function() {
 	 count(node)
 	 return size
 };
-	// should run breadth first when breadthFirstForEach() is run
+
 BinarySearchTree.prototype.breadthFirstForEach = function(callback) {
 	var node = this;
 	var queue = [node];
-	var result = []
 	while (node = queue.shift()){
-		result.push(callback.call(node, node.value))
+		callback.call(node, node.value)
 		node.left && queue.push(node.left)
 		node.right && queue.push(node.right)
 	}
-	return result
 };
